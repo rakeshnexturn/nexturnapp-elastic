@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import mobilesData from "./mobiles.json";
 
 const CompanyInfo = () => {
   const [awsRegion, setAwsRegion] = useState("Unknown AWS Region");
 
   useEffect(() => {
-    // Fetch AWS region information (replace this with your actual logic)
     const fetchAwsRegion = async () => {
       try {
-        // Example: Fetching the AWS region from a data source or API
-        const response = await fetch("api/aws/region");
-        const data = await response.json();
-        setAwsRegion(data.region);
+        const res = await fetch('http://169.254.169.254/latest/dynamic/instance-identity/document');
+        const data = await res.json();
+        const region = data.region;
+        setAwsRegion(region);
       } catch (error) {
         console.error("Error fetching AWS region:", error);
       }
@@ -36,4 +34,5 @@ const CompanyInfo = () => {
 };
 
 export default CompanyInfo;
+
 
